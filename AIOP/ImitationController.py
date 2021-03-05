@@ -10,16 +10,16 @@ physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 
 class Controller(object):
-	def __init__(self,env_modelname,files,PV,lookback,Default_Env=True):
-		self.env_modelname = env_modelname
+	def __init__(self,modelname,files,PV,lookback,Default=True):
+		self.modelname = modelname
 		self.files = files
 		self.PV = PV
 		self.env_lookback = lookback
 		self.TrainPreprocess()
 		self.TrainTestSplit()
-		#Train and save model if Default_ENv is True
-		if Default_Env:
-			self.TrainEnv()
+		#Train and save model if Default is True
+		if Default:
+			self.TrainCont()
 			self.SaveEnv()
 
 	def TrainPreprocess (self):
@@ -94,9 +94,9 @@ class Controller(object):
 
 	def SaveEnv(self):
 		#create unique string to save model to working directory
-		self.model.save(self.env_modelname +'.h5')
+		self.model.save(self.modelname +'.h5')
 
-		with open(self.env_modelname +'.txt', 'w') as filehandle:
+		with open(self.modelname +'.txt', 'w') as filehandle:
 			filehandle.write('%s\n' % 'lookback=')
 			filehandle.write('%s\n' % self.env_lookback)
 			filehandle.write('%s\n' % 'PV=')

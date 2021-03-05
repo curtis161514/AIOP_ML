@@ -19,24 +19,19 @@ variables = [	['FIC-1100','sRaw'],
 
 PreProcess(directory,simdata,valfile,variables)
 
-####################################################################
-#---------Initalize some common variables shared btw classes--------
-####################################################################
-#process data to learn from
-files = ['train1.csv','train2.csv','train3.csv','train4.csv',
-			'train5.csv','train6.csv','train7.csv']
-#name to save the trained model to
-env_modelname = 'FIC1100_Controller'
-#process response variable
-PV = 'FIC-1100sRaw' 
-
-
 ##################################################################
 #----------------Build and Train Controller Model------------
 ###################################################################
 
-lookback = 3 #time required to capture environment dynamics
-controller = Controller(env_modelname,files,PV,lookback,Default_Env=False)
+#process data to learn from
+files = ['train1.csv','train2.csv','train3.csv','train4.csv',
+			'train5.csv','train6.csv','train7.csv']
+#name to save the trained model to
+modelname = 'FIC1100_Controller'
+#process response variable
+PV = 'FIC-1100sRaw' 
+
+controller = Controller(modelname,files,PV,lookback=3,Default=False)
 
 #train controller model
 controller.TrainCont(fc1_dims=16,fc2_dims=16,lr=.001,ep=50)
